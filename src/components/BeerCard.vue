@@ -42,21 +42,21 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-type dateString = string;
+// type dateString = string;
 
-type Beer = {
-  id: string;
-  beer_image: string; // varchar
-  name: string;
-  type: string;
-  style: string;
-  abv: number; // integer
-  description: string;
-  date: null | dateString;
-  rating: number; // integer
-  favourite: boolean;
-  location: null | string;
-};
+// type Beer = {
+//   id: string;
+//   beer_image: string; // varchar
+//   name: string;
+//   type: string;
+//   style: string;
+//   abv: number; // integer
+//   description: string;
+//   date: null | dateString;
+//   rating: number; // integer
+//   favourite: boolean;
+//   location: null | string;
+// };
 
 export default defineComponent({
   props: {
