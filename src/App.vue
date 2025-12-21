@@ -3,11 +3,12 @@
   <BeerCard v-for="beer in beers" :key="beer.id" :beer="beer" />
 </template>
 
-<script>
+<script lang="ts">
 import MainNav from "./components/MainNav.vue";
 import BeerCard from "./components/BeerCard.vue";
 
 export default {
+  name: "App",
   components: {
     MainNav,
     BeerCard,
