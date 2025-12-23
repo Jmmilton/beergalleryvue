@@ -1,21 +1,23 @@
 <template>
   <div class="nav-middle-buttons col-6">
     <button class="brew-buttons" :class="buttonClass">
-      <div class="icon-row">
-        <!-- Named slot for icons - provides defaults -->
-        <slot name="icon">
-          <i class="btn-custom-icon"></i>
-        </slot>
-        <slot name="action-icon">
-          <i class="fa-solid fa-plus"></i>
-        </slot>
-      </div>
-      <div class="button-content">
-        <!-- Default slot for full content override, or use name/subtitle -->
-        <slot :item="item">
-          <div class="button-name">{{ item.name }}</div>
-          <div class="button-subtitle">{{ item.subtitle }}</div>
-        </slot>
+      <div class="button-wrapper">
+        <div class="icon-row">
+          <!-- Named slot for icons - provides defaults -->
+          <slot name="icon">
+            <i class="btn-custom-icon"></i>
+          </slot>
+          <slot name="action-icon">
+            <i class="fa-solid fa-plus"></i>
+          </slot>
+        </div>
+        <div class="button-content">
+          <!-- Default slot for full content override, or use name/subtitle -->
+          <slot :item="item">
+            <div class="button-name">{{ item.name }}</div>
+            <div class="button-subtitle">{{ item.subtitle }}</div>
+          </slot>
+        </div>
       </div>
     </button>
   </div>
@@ -44,26 +46,45 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 5px;
   }
 
   .brew-buttons {
     border-radius: 20px;
     padding: 10px;
-    min-width: 160px;
-    max-width: 160px;
-    box-shadow: 0 10px 15px -3px rgb(255 0 0 / 10%),
-      0 4px 6px -4px rgb(255 0 0 / 10%);
+    // min-width: 160px;
+    // max-width: 160px;
     border: none;
     color: #fff;
-    min-height: 116px;
-    max-height: 116px;
-    min-width: 180px;
-    max-width: 180px;
+    // min-height: 116px;
+    // max-height: 116px;
+    // min-width: 190px;
+    // max-width: 190px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     text-align: left;
     // padding: 15px;
+
+    @media (min-width: 426px) {
+      min-height: 116px;
+      max-height: 116px;
+      min-width: 190px;
+      max-width: 190px;
+    }
+
+    @media (min-width: 580px) {
+      min-height: 130px;
+      max-height: 130px;
+      min-width: 210px;
+      max-width: 210px;
+    }
+
+    .button-wrapper {
+      display: flex;
+      flex-direction: column;
+      margin: 5px;
+    }
 
     .button-name {
       font-size: 1.05rem;
@@ -74,6 +95,13 @@ export default {
 
     &.btn-log-my-brew {
       background: linear-gradient(45deg, #f59e0b, #d97706);
+      box-shadow: 0 6px 10px -2px rgb(124 45 18 / 35%),
+        0 2px 4px -2px rgb(124 45 18 / 35%);
+
+      &:hover {
+        box-shadow: 0 10px 14px -3px rgb(120 53 15 / 45%),
+          0 4px 6px -3px rgb(120 53 15 / 40%);
+      }
 
       .btn-custom-icon {
         &:before {
@@ -89,7 +117,14 @@ export default {
     }
 
     &.btn-log-tasting {
-      background: #1e293b;
+      background: linear-gradient(45deg, #334155, #1e293b);
+      box-shadow: 0 6px 10px -2px rgb(15 23 42 / 30%),
+        0 2px 4px -2px rgb(15 23 42 / 25%);
+
+      &:hover {
+        box-shadow: 0 14px 20px -3px rgb(15 23 42 / 45%),
+          0 6px 8px -4px rgb(15 23 42 / 40%);
+      }
 
       .btn-custom-icon {
         &:before {

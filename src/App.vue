@@ -1,6 +1,8 @@
 <template>
   <MainNav tagline="BEER" />
-  <BeerCard v-for="beer in beers" :key="beer.id" :beer="beer" />
+  <div class="container-fluid">
+    <BeerCard v-for="beer in beers" :key="beer.id" :beer="beer" />
+  </div>
 </template>
 
 <script lang="ts">
