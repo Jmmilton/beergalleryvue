@@ -46,19 +46,38 @@
     <div class="container-fluid">
       <div class="nav-middle brew-buttons-row row">
         <BrewNavButton
-          v-for="item in navButtons"
-          :key="item.path"
-          :item="item"
-          :buttonClass="`btn-${item.variant}`"
+          v-for="button in navButtons"
+          :key="button.path"
+          :button="button"
+          :buttonClass="`btn-${button.variant}`"
+          :beerVariant="button.variant"
         />
       </div>
 
-      <div class="row">
-        <div class="nav-bottom">
-          <div class="nav-bottom-categories col-12">
-            <button v-for="item in categories" class="category-items">
-              <span>{{ item.name }}</span>
-            </button>
+      <div class="container">
+        <div class="row">
+          <div class="nav-bottom">
+            <div class="nav-bottom-categories col-12">
+              <button
+                v-for="item in categories"
+                class="category-items"
+                :class="{ active: item.active }"
+                @click="item.active"
+              >
+                <router-link :to="item.path"
+                  ><span>{{ item.name }}</span></router-link
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container pb-2">
+        <div class="row">
+          <div class="nav-recent-brews col-12">
+            <h2>Recent Beers</h2>
+            <router-link to="/" class="view-all-button">View All</router-link>
           </div>
         </div>
       </div>
@@ -66,51 +85,46 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+const emit = defineEmits(["beerVariant"]);
 import BrewNavButton from "./BrewNavButton.vue";
-export default {
-  components: {
-    BrewNavButton,
+
+const totalBrews = ref(1);
+const myBrews = ref("2");
+const tasted = ref("3");
+const navButtons = ref([
+  {
+    name: "Log My Brew",
+    subtitle: "Log Homebrew Batch",
+    // path: "/log-brew",
+    variant: "log-brew",
   },
-  data: () => ({
-    totalBrews: 1,
-    myBrews: "2",
-    tasted: "3",
-    navButtons: [
-      {
-        name: "Log My Brew",
-        subtitle: "Add Homebrew Batch",
-        path: "/log-my-brew",
-        variant: "log-my-brew",
-      },
-      {
-        name: "Log Tasting",
-        subtitle: "Save Beer I Tried",
-        path: "/log-tasting",
-        variant: "log-tasting",
-      },
-    ],
-    categories: [
-      {
-        name: "All",
-        path: "/log-my-brew",
-      },
-      {
-        name: "My Brews",
-        path: "/log-tasting",
-      },
-      {
-        name: "Tasted",
-        path: "/log-tasting",
-      },
-      {
-        name: "Favourites",
-        path: "/log-tasting",
-      },
-    ],
-  }),
-  methods: {},
-};
+  {
+    name: "Log Tasting",
+    subtitle: "Save Beer I Tried",
+    // path: "/log-tasting",
+    variant: "log-tasting",
+  },
+]);
+const categories = ref([
+  {
+    name: "My Brews",
+    path: "/brewed",
+  },
+  {
+    name: "Tasted",
+    path: "/tasted",
+  },
+  {
+    name: "Fav Brew",
+    path: "/favourite-brews",
+  },
+  {
+    name: "Fav Tasted",
+    path: "/favourite-tasted",
+  },
+]);
 </script>
 
 <style lang="scss">
@@ -220,7 +234,7 @@ export default {
   .nav-bottom {
     .nav-bottom-categories {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
       position: relative;
       bottom: 10px;
       padding-bottom: 10px;
@@ -232,10 +246,15 @@ export default {
         padding: 8px;
         min-width: 55px;
 
+        a {
+          text-decoration: none;
+        }
+
         span {
           margin: 0 5px;
           font-weight: 500;
           font-size: 14px;
+          color: #000;
         }
 
         &.active {
@@ -243,6 +262,20 @@ export default {
           color: #fff;
         }
       }
+    }
+  }
+
+  .nav-recent-brews {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      background-color: #fff;
+      border: none;
+      color: #d97706;
+      font-weight: 700;
+      text-decoration: none;
     }
   }
 }

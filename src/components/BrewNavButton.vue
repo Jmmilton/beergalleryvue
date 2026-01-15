@@ -1,6 +1,11 @@
 <template>
   <div class="nav-middle-buttons col-6">
-    <button class="brew-buttons" :class="buttonClass">
+    <!-- <router-link :to="item.path"> -->
+    <button
+      class="brew-buttons"
+      @click="navigateTo(button.variant)"
+      :class="buttonClass"
+    >
       <div class="button-wrapper">
         <div class="icon-row">
           <!-- Named slot for icons - provides defaults -->
@@ -13,26 +18,35 @@
         </div>
         <div class="button-content">
           <!-- Default slot for full content override, or use name/subtitle -->
-          <slot :item="item">
-            <div class="button-name">{{ item.name }}</div>
-            <div class="button-subtitle">{{ item.subtitle }}</div>
+          <slot :button="button">
+            <div class="button-name">{{ button.name }}</div>
+            <div class="button-subtitle">{{ button.subtitle }}</div>
           </slot>
         </div>
       </div>
     </button>
+    <!-- </router-link> -->
   </div>
 </template>
 
 <script>
+// import path from "path";
+
 export default {
   props: {
-    item: {
+    button: {
       type: Object,
       required: true,
     },
     buttonClass: {
       type: String,
       default: "",
+    },
+  },
+
+  methods: {
+    navigateTo(url) {
+      this.$router.push(url);
     },
   },
 };
@@ -42,6 +56,11 @@ export default {
 .nav-middle-buttons {
   display: flex;
   justify-content: center;
+
+  a {
+    text-decoration: none;
+  }
+
   .icon-row {
     display: flex;
     justify-content: space-between;
@@ -93,7 +112,7 @@ export default {
     .button-subtitle {
     }
 
-    &.btn-log-my-brew {
+    &.btn-log-brew {
       background: linear-gradient(45deg, #f59e0b, #d97706);
       box-shadow: 0 6px 10px -2px rgb(124 45 18 / 35%),
         0 2px 4px -2px rgb(124 45 18 / 35%);
