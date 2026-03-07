@@ -77,7 +77,7 @@
         <div class="row">
           <div class="nav-recent-brews col-12">
             <h2>Recent Beers</h2>
-            <router-link to="/beergalleryvue" class="view-all-button">View All</router-link>
+            <router-link to="/" class="view-all-button">View All</router-link>
           </div>
         </div>
       </div>

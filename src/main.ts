@@ -14,7 +14,7 @@ axios.defaults.baseURL = import.meta.env.VITE_API_URL
 
 
 const routes = [
-  { path: '/beergalleryvue', component: HomePageContainer },
+  { path: '/', component: HomePageContainer },
   { path: '/brewed', component: BrewedBeers },
   { path: '/tasted', component: TastedBeers },
   { path: '/beer', component: InsideBeer },
