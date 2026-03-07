@@ -232,7 +232,7 @@ const submitForm = async () => {
   }
 
   if (image.value) {
-    formData.append("beer[image_url]", image.value);
+    formData.append("beer[beer_image]", image.value);
   }
 
   try {
