@@ -141,9 +141,14 @@
         </p>
       </div>
 
-      <p v-if="successMessage" class="success-message">
-        {{ successMessage }}
-      </p>
+      <div>
+        <p v-if="successMessage" class="success-message">
+          {{ successMessage }}
+        </p>
+        <p v-else-if="errorMessage" class="success-message">
+          {{ errorMessage }}
+        </p>
+      </div>
 
       <button type="submit" class="submit-button">
         <i class="fa-solid fa-beer-mug-empty"></i>
@@ -156,6 +161,9 @@
 <script setup>
 import axios from "axios";
 import { ref, computed, nextTick } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const props = defineProps({
   beerVariant: { type: String, required: true },
@@ -174,6 +182,7 @@ const image = ref(null);
 const fileInput = ref(null);
 const imageUploadError = ref(false);
 const successMessage = ref("");
+const errorMessage = ref("");
 const postVariant = computed(() =>
   props.beerVariant === "log-brew" ? "homebrew" : "tasted"
 );
@@ -223,7 +232,7 @@ const submitForm = async () => {
   }
 
   if (image.value) {
-    formData.append("beer[beer_image]", image.value);
+    formData.append("beer[image_url]", image.value);
   }
 
   try {
@@ -241,7 +250,9 @@ const submitForm = async () => {
     image.value = null;
     await nextTick();
     fileInput.value?.reset();
+    setTimeout(() => router.push('/'), 1000)
   } catch (error) {
+    errorMessage.value = "❌ Beer failed to submit ❌";
     console.error("Error:", error.response?.data || error.message);
   }
 };

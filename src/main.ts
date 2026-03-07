@@ -12,17 +12,16 @@ import axios from 'axios'
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
 
-
 const routes = [
   { path: '/', component: HomePageContainer },
   { path: '/brewed', component: BrewedBeers },
   { path: '/tasted', component: TastedBeers },
-  { path: '/beer', component: InsideBeer },
+  { path: '/beer/:id', component: InsideBeer },
   { path: '/log-brew', component: LogBeer, props: { beerVariant: 'log-brew' }},
   { path: '/log-tasting', component: LogBeer, props: { beerVariant: 'log-tasting' }},
   { path: '/fav-brewed', component: FavBrewed},
   { path: '/fav-tasted', component: FavTasted},
-
+  
 ]
 
 const router = createRouter({
