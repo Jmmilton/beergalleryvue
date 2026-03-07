@@ -2,7 +2,7 @@
   <div class="row">
     <div class="card-col col-12">
         <div class="card">
-          <img :src="beer.image_url" alt="" v-if="beer.image_url" />
+          <img :src="beer.image_url ? beer.image_url : beer.beer_image" alt="" v-if="beer.image_url || beer.beer_image" />
           <div class="card-body">
             <div class="top-row">
               <span class="beer-type" :class="brewTypeColor">{{
