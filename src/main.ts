@@ -23,7 +23,6 @@ const routes = [
   { path: '/fav-brewed', component: FavBrewed},
   { path: '/fav-tasted', component: FavTasted},
 
-
 ]
 
 const router = createRouter({
