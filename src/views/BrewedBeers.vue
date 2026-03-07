@@ -69,7 +69,7 @@ export default defineComponent({
   computed: {},
   created() {
     axios
-      .get("http://localhost:3000/brewed-beers")
+      .get("/beers/brewed")
       .then((response) => {
         this.beers = response.data;
         console.log(this.beers, "beers");

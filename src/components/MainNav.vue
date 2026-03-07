@@ -86,13 +86,24 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-const emit = defineEmits(["beerVariant"]);
+import { ref, onMounted } from "vue";
+import axios from "axios";
 import BrewNavButton from "./BrewNavButton.vue";
 
-const totalBrews = ref(1);
-const myBrews = ref("2");
-const tasted = ref("3");
+const emit = defineEmits(["beerVariant"]);
+
+const totalBrews = ref(0);
+const myBrews = ref(0);
+const tasted = ref(0);
+
+onMounted(async () => {
+  const { data } = await axios.get("/beers")
+  totalBrews.value = data.total
+  myBrews.value = data.brewed_count
+  tasted.value = data.tasted_count
+})
+
+
 const navButtons = ref([
   {
     name: "Log My Brew",
@@ -118,11 +129,11 @@ const categories = ref([
   },
   {
     name: "Fav Brew",
-    path: "/favourite-brews",
+    path: "/fav-brewed",
   },
   {
     name: "Fav Tasted",
-    path: "/favourite-tasted",
+    path: "/fav-tasted",
   },
 ]);
 </script>

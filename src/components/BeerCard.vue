@@ -3,7 +3,7 @@
     <div class="card-col col-12">
       <RouterLink :to="'/beer/' + beer.id">
         <div class="card">
-          <img :src="beer.beer_image" alt="" />
+          <img :src="beer.beer_image" alt="" v-if="beer.beer_image" />
           <div class="card-body">
             <div class="top-row">
               <span class="beer-type" :class="brewTypeColor">{{
@@ -67,10 +67,10 @@ const props = defineProps({
   beer: {
     type: Object,
     required: true,
-  },
+  }
 });
 
-console.log(props.beer, "beer");
+console.log(props.beer, "beersssss");
 
 const brewTypeColor = computed(() => {
   // console.log(props.beer, "beer type");

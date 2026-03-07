@@ -6,6 +6,12 @@ import InsideBeer from './views/InsideBeer.vue'
 import LogBeer from "./views/LogBeer.vue"
 import BrewedBeers from "./views/BrewedBeers.vue"
 import TastedBeers from "./views/TastedBeers.vue"
+import FavBrewed from "./views/FavBrewed.vue"
+import FavTasted from "./views/FavTasted.vue"
+import axios from 'axios'
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL
+
 
 const routes = [
   { path: '/', component: HomePageContainer },
@@ -14,6 +20,10 @@ const routes = [
   { path: '/beer', component: InsideBeer },
   { path: '/log-brew', component: LogBeer, props: { beerVariant: 'log-brew' }},
   { path: '/log-tasting', component: LogBeer, props: { beerVariant: 'log-tasting' }},
+  { path: '/fav-brewed', component: FavBrewed},
+  { path: '/fav-tasted', component: FavTasted},
+
+
 ]
 
 const router = createRouter({

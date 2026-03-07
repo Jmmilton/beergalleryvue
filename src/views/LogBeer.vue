@@ -64,7 +64,7 @@
       <div v-if="beerVariant === 'log-tasting'" class="variant-section tasting">
         <h3>Where'd you try it?</h3>
         <div class="form-grid">
-          <div class="form-group full-width">
+          <!-- <div class="form-group full-width">
             <label for="date-tasted">Date Tasted</label>
             <input
               v-model="date_tasted"
@@ -73,7 +73,7 @@
               name="date-tasted"
               required
             />
-          </div>
+          </div> -->
           <div class="form-group full-width">
             <label for="location">Location</label>
             <input
@@ -113,7 +113,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group pb-2">
         <label for="description">Tasting Notes</label>
         <textarea
           v-model="description"
@@ -204,7 +204,7 @@ const submitForm = async () => {
 
   const formData = new FormData();
 
-  formData.append("beer[title]", name.value.trim());
+  formData.append("beer[name]", name.value.trim());
   formData.append(
     "beer[beer_type]",
     props.beerVariant === "log-brew" ? "homebrew" : "tasted"
@@ -215,7 +215,7 @@ const submitForm = async () => {
   formData.append("beer[description]", description.value.trim());
 
   if (props.beerVariant === "log-tasting") {
-    formData.append("beer[date_tasted]", date_tasted.value);
+    // formData.append("beer[date_tasted]", date_tasted.value);
     formData.append("beer[location]", location.value.trim());
   } else if (props.beerVariant === "log-brew") {
     formData.append("beer[date_brewed]", date_brewed.value);
@@ -229,7 +229,7 @@ const submitForm = async () => {
   try {
     console.log("Sending:", Object.fromEntries(formData));
     const response = await axios.post(
-      `http://localhost:3000/save-beer/${postVariant.value}`,
+      `/save-beer/${postVariant.value}`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

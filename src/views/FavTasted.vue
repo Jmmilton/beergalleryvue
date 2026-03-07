@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BeerCard v-for="beer in beers" :key="beer.id" :beer="beer" />
+    <BeerCard v-for="beer in favBrews" :key="beer.id" :beer="beer" />
   </div>
 </template>
 
@@ -66,22 +66,23 @@ export default defineComponent({
     ],
     errors: [],
   }),
-  computed: {},
+  computed: {
+    favBrews(){
+      return this.beers.filter(beer => beer.favourite)
+    }
+  },
   created() {
     axios
       .get("/beers/tasted")
       .then((response) => {
         this.beers = response.data;
-        console.log(this.beers, "beers");
+        console.log(this.beers, "tasted");
       })
       .catch((e) => {
         this.errors.push(e);
       });
   },
   methods: {
-    // deleteBeer() {
-    //   this.$emit("delete-beer", this.beer);
-    // },
   },
 });
 </script>
