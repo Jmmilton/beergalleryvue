@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="nav-top-before-banner">
           <div class="title">
-            <h1>BrewLog</h1>
+            <h1>MyBrews</h1>
           </div>
           <button class="profile-button">
             <span class="profile-icon">

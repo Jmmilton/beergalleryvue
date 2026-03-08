@@ -11,7 +11,7 @@
               }}</span
               ><button :class="isFavourited" class="favourite-button">
                 <span class="favourite-icon"
-                  ><i :class="isFavourited" class="fa-heart"></i
+                  ><i :class="isFavourited" class="far fa-heart"></i
                 ></span>
               </button>
             </div>

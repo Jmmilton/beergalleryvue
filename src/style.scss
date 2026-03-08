@@ -78,11 +78,13 @@ button:focus-visible {
   }
 } */
 
-body { 
-  margin: 0;
-}
-
 html, body {
   overflow-x: hidden;
   scrollbar-gutter: stable;
+  min-height: 100%;
+}
+
+.app {
+  min-height: 100vh;          /* fallback for older browsers */
+  min-height: 100dvh;         /* modern browsers - preferred */
 }
