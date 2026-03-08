@@ -81,3 +81,8 @@ button:focus-visible {
 body { 
   margin: 0;
 }
+
+html, body {
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
