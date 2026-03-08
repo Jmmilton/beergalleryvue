@@ -80,11 +80,21 @@ button:focus-visible {
 
 html, body {
   overflow-x: hidden;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: stable both-edges;
   min-height: 100%;
 }
 
 .app {
   min-height: 100vh;          /* fallback for older browsers */
   min-height: 100dvh;         /* modern browsers - preferred */
+}
+
+.card {
+  img {
+    max-width: 100%;
+  }
+}
+
+input, select, textarea {
+  font-size: 16px;  /* anything below this triggers zoom on iOS */
 }
