@@ -1,5 +1,5 @@
 <template>
-  <MainNav tagline="BEER" />
+  <MainNav v-if="$route.path !== '/login'" tagline="BEER" />
   <div class="container-fluid">
     <!-- <RouterLink to="/">Go to Home</RouterLink>
     <RouterLink to="/about">Go to About</RouterLink> -->

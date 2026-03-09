@@ -6,11 +6,13 @@
           <div class="title">
             <h1>MyBrews</h1>
           </div>
-          <button class="profile-button">
-            <span class="profile-icon">
-              <i class="fa-solid fa-user"></i>
-            </span>
-          </button>
+          <router-link :to="'/login'">
+            <button class="profile-button">
+              <span class="profile-icon">
+                <i class="fa-solid fa-user"></i>
+              </span>
+            </button>
+          </router-link>
         </div>
 
         <div class="row nav-top-banner-row">
