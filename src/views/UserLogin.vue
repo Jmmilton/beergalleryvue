@@ -8,41 +8,53 @@
 
     <div class="login-card">
 
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          v-model="email"
-          type="email"
-          placeholder="you@email.com"
-        />
-      </div>
+      <form @submit.prevent="login">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            v-model="email"
+            type="email"
+            placeholder="you@email.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            v-model="password"
+            type="password"
+            placeholder="••••••••"
+            required
+          />
+        </div>
 
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          v-model="password"
-          type="password"
-          placeholder="••••••••"
-        />
-      </div>
+        <p v-if="!newUser" class="signup forgot-password">
+          <button @click="forgotPassword">Forgot Password?</button>
+        </p>
 
-      <div v-if="!newUser" class="forgot">
-        <a href="#">Forgot password?</a>
-      </div>
+        <div class="form-errors" v-if="error">
+          {{ error }}
+        </div>
 
-      <button class="login-button" @click="login">
-        {{ newUser ? 'Register' : 'Log In' }}
-      </button>
+        <button v-if="!newUser" class="login-button" @click="login" type="submit">
+          Log In
+        </button>
 
-      <p v-if="!newUser" class="signup">
-        Don't have an account?
-        <button @click="newUser = true">Create Account</button>
-      </p>
+        <button v-if="newUser" class="login-button" @click="register" type="submit">
+          Register
+        </button>
 
-      <p v-if="newUser" class="signup">
-        Already have an account?
-        <button @click="newUser = false">Log In</button>
-      </p>
+        <p v-if="!newUser" class="signup">
+          Don't have an account?
+          <button @click="newUser = true">Create Account</button>
+        </p>
+
+        <p v-if="newUser" class="signup">
+          Already have an account?
+          <button @click="newUser = false">Log In</button>
+        </p>
+
+      </form>
 
     </div>
 
@@ -58,19 +70,50 @@ const router = useRouter()
 
 const email = ref("")
 const password = ref("")
+const error = ref("")
+const message = ref("")
 let newUser = ref(false)
 
 
 async function login() {
   try {
-    const response = await axios.post('/users', {
-      user: { email: email.value, password: password.value }
-    })
+    const response = await axios.post('/users/sign_in', 
+      { user: { email: email.value, password: password.value } },
+      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+      )
+    const token = response.data.token
+    localStorage.setItem('token', token)
+    router.push('/')
+  } catch (err) {
+    console.log(err.response.data.error, 'err')
+    error.value = err.response?.data.error
+  }
+}
+
+async function register() {
+  try {
+    const response = await axios.post('/users', 
+      { user: { email: email.value, password: password.value } },
+      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+      )
     const token = response.headers['authorization']
     localStorage.setItem('token', token)
     router.push('/')
   } catch (error) {
     console.error(error.response?.data)
+    error.value = error
+  }
+}
+
+async function forgotPassword() {
+  try {
+    await axios.post('/users/password', 
+      { user: { email: email.value } },
+      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+    )
+    message.value = "Check your email for reset instructions"
+  } catch (err) {
+    error.value = err.response?.data?.error || "Something went wrong"
   }
 }
 </script>
@@ -186,4 +229,11 @@ input:focus {
   padding: 0;
 }
 
+.form-errors {
+  justify-content: center;
+  display: flex;
+  padding: 10px 0 10px 0px;
+  font-size: 14px;
+  color: #e02121;
+}
 </style>

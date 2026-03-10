@@ -13,10 +13,14 @@ import UserLogin from "./views/UserLogin.vue"
 import axios from 'axios'
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
+axios.defaults.headers.common['Content-Type'] = 'application/json'
+axios.defaults.headers.common['Accept'] = 'application/json'
 
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
-  if (token) config.headers['Authorization'] = token
+  if (token && token !== 'undefined') {
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
   return config
 })
 
@@ -39,7 +43,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isLoggedIn = !!localStorage.getItem('token')
+  const token = localStorage.getItem('token')
+  const isLoggedIn = !!token && token !== 'undefined'
+  
   if (!to.meta.public && !isLoggedIn) {
     next('/login')
   } else {

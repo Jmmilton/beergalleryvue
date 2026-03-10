@@ -6,13 +6,17 @@
           <div class="title">
             <h1>MyBrews</h1>
           </div>
-          <router-link :to="'/login'">
-            <button class="profile-button">
+          <!-- <router-link :to="''"> -->
+            <button class="profile-button" @click="profileDropdown">
               <span class="profile-icon">
                 <i class="fa-solid fa-user"></i>
               </span>
             </button>
-          </router-link>
+
+            <div v-if="isDropdown">
+              <button @click="signOut">Sign Out</button>
+            </div>
+          <!-- </router-link> -->
         </div>
 
         <div class="row nav-top-banner-row">
@@ -91,12 +95,16 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import BrewNavButton from "./BrewNavButton.vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const emit = defineEmits(["beerVariant"]);
 
 const totalBrews = ref(0);
 const myBrews = ref(0);
 const tasted = ref(0);
+let isDropdown = ref(false)
 
 onMounted(async () => {
   const { data } = await axios.get("/beers")
@@ -104,6 +112,23 @@ onMounted(async () => {
   myBrews.value = data.brewed_count
   tasted.value = data.tasted_count
 })
+
+function profileDropdown() {
+  isDropdown.value = true
+}
+
+async function signOut() {
+  try {
+    await axios.delete('/users/sign_out',
+      { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    })
+    localStorage.removeItem('token')
+    router.push('/login')
+  } catch (err) {
+    localStorage.removeItem('token')
+    router.push('/login')
+  }
+}
 
 
 const navButtons = ref([
