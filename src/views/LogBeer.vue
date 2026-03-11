@@ -438,6 +438,11 @@ const submitForm = async () => {
   margin-bottom: 1rem;
 }
 
+.error-message {
+  color: #d00f49;
+
+}
+
 .submit-button {
   width: 100%;
   padding: 1rem 2rem;

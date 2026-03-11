@@ -1,6 +1,9 @@
 <template>
   <div class="beer-nav">
     <div class="nav-top">
+      <div v-if="isDemoUser" class="demo-banner">
+        You're viewing a demo account — changes are disabled
+      </div>
       <div class="container-fluid">
         <div class="nav-top-before-banner">
           <div class="title">
@@ -92,7 +95,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import BrewNavButton from "./BrewNavButton.vue";
 import { useRouter } from 'vue-router'
@@ -129,6 +132,9 @@ async function signOut() {
     router.push('/login')
   }
 }
+
+const isDemoUser = computed(() => localStorage.getItem('userEmail') === 'demo@mybrews.app')
+
 
 
 const navButtons = ref([
@@ -316,5 +322,20 @@ const categories = ref([
       text-decoration: none;
     }
   }
+}
+
+.demo-banner {
+  background: linear-gradient(135deg, #1a2332, #243044);
+  color: #f5a623;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 0 0 15px 15px;;
 }
 </style>

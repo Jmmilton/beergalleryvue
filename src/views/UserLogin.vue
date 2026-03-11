@@ -97,6 +97,7 @@ async function login() {
   )
   const token = response.data.token
   localStorage.setItem('token', token)
+  localStorage.setItem('userEmail', email.value)
   router.push('/')
   if(isButtonDisabled.value) return
   } catch (err) {

@@ -43,7 +43,7 @@
         <p v-if="successMessage" class="success-message">
           {{ successMessage }}
         </p>
-        <p v-else-if="errorMessage" class="success-message">
+        <p v-else-if="errorMessage" class="success-message error-message">
           {{ errorMessage }}
         </p>
       </div>
@@ -64,13 +64,14 @@ import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const beer = ref([])
+const beer = ref({})
 const successMessage = ref("");
 const errorMessage = ref("");
 
 onMounted(async () => {
-  const response = await axios.get(`/beer/${route.params.id}`)
-    beer.value = response.data.beers
+  const response = await axios.get(`/beers/${route.params.id}`)
+  console.log(response, 'ressss')
+    beer.value = response.data.beer
 })
 
 
@@ -100,7 +101,7 @@ const deleteBeer = async () => {
     setTimeout(() => router.push('/'), 1000)
   }
   catch (error) {
-    errorMessage.value = "❌ Beer failed to delete ❌";
+    errorMessage.value = "Beer failed to delete";
     console.error("Error:", error.response?.data || error.message);
   }
 }
