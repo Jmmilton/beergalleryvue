@@ -18,7 +18,7 @@
             required
           />
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="!isForgotPassword">
           <label>Password</label>
           <input
             v-model="password"
@@ -28,30 +28,41 @@
           />
         </div>
 
-        <p v-if="!newUser" class="signup forgot-password">
-          <button @click="forgotPassword">Forgot Password?</button>
-        </p>
 
         <div class="form-errors" v-if="error">
           {{ error }}
         </div>
 
-        <button v-if="!newUser" class="login-button" @click="login" type="submit">
+        <div class="form-errors" v-if="message">
+          {{ message }}
+        </div>
+
+        <button v-if="!newUser && !isForgotPassword" class="login-button" @click="login" type="submit">
           Log In
         </button>
 
-        <button v-if="newUser" class="login-button" @click="register" type="submit">
+        <button v-if="newUser" class="login-button" @click="register" type="button">
           Register
         </button>
 
-        <p v-if="!newUser" class="signup">
-          Don't have an account?
-          <button @click="newUser = true">Create Account</button>
-        </p>
+        <button v-if="!newUser && isForgotPassword" class="login-button" @click="forgotPasswordSubmit" type="button">
+          {{ isButtonDisabled ? 'Submitted' : 'Submit' }}
+        </button>
 
-        <p v-if="newUser" class="signup">
-          Already have an account?
-          <button @click="newUser = false">Log In</button>
+        <template v-if="!isForgotPassword">
+          <p v-if="!newUser" class="signup">
+            Don't have an account?
+            <button @click="newUser = true">Create Account</button>
+          </p>
+          <p v-if="newUser" class="signup">
+            Already have an account?
+            <button @click="newUser = false">Log In</button>
+          </p>
+        </template>
+
+        <p v-if="!newUser" class="signup forgot-password">
+          <button v-if="!isForgotPassword" @click="forgotPasswordToggle" type="button">Forgot Password?</button>
+          <button v-if="isForgotPassword" @click="forgotPasswordToggle" type="button">Go Back</button>
         </p>
 
       </form>
@@ -72,46 +83,58 @@ const email = ref("")
 const password = ref("")
 const error = ref("")
 const message = ref("")
+const isButtonDisabled = ref(false)
+let isForgotPassword = ref(false)
 let newUser = ref(false)
 
 
 async function login() {
+  
   try {
     const response = await axios.post('/users/sign_in', 
-      { user: { email: email.value, password: password.value } },
-      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
-      )
-    const token = response.data.token
-    localStorage.setItem('token', token)
-    router.push('/')
+    { user: { email: email.value, password: password.value } },
+    { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+  )
+  const token = response.data.token
+  localStorage.setItem('token', token)
+  router.push('/')
+  if(isButtonDisabled.value) return
   } catch (err) {
     console.log(err.response.data.error, 'err')
-    error.value = err.response?.data.error
+    error.value = err.response?.data.error || "Something went wrong"
   }
 }
 
 async function register() {
+  
   try {
     const response = await axios.post('/users', 
-      { user: { email: email.value, password: password.value } },
-      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
-      )
-    const token = response.headers['authorization']
-    localStorage.setItem('token', token)
-    router.push('/')
-  } catch (error) {
-    console.error(error.response?.data)
-    error.value = error
+    { user: { email: email.value, password: password.value } },
+    { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+  )
+  const token = response.headers['authorization']
+  localStorage.setItem('token', token)
+  router.push('/')
+  if(isButtonDisabled.value) return
+  } catch (err) {
+    error.value = err.response?.data.error || "Something went wrong"
   }
 }
 
-async function forgotPassword() {
+function forgotPasswordToggle () {
+  isForgotPassword.value = !isForgotPassword.value
+}
+
+async function forgotPasswordSubmit() {
+  
   try {
     await axios.post('/users/password', 
-      { user: { email: email.value } },
-      { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
-    )
-    message.value = "Check your email for reset instructions"
+    { user: { email: email.value } },
+    { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }
+  )
+  message.value = "Check your email for reset instructions"
+
+  if(isButtonDisabled.value) return
   } catch (err) {
     error.value = err.response?.data?.error || "Something went wrong"
   }
@@ -193,6 +216,10 @@ input:focus {
   color: #f59e0b;
   font-size: 14px;
   text-decoration: none;
+}
+
+.forgot-password {
+  font-size: 14px;
 }
 
 
