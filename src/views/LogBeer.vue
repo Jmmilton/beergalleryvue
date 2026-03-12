@@ -134,7 +134,7 @@
           type="file"
           id="image"
           name="image"
-          accept="image/*"
+          accept="image/*,.heic,.heif"
         />
         <p v-if="imageUploadError" class="image-upload-error">
           Please upload a beer photo
@@ -187,9 +187,15 @@ const postVariant = computed(() =>
   props.beerVariant === "log-brew" ? "homebrew" : "tasted"
 );
 
+const isValidImageFile = (file) => {
+  if (file.type.startsWith("image/")) return true;
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  return ["heic", "heif"].includes(ext);
+};
+
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
-  if (file && file.type.startsWith("image/")) {
+  if (file && isValidImageFile(file)) {
     imageUploadError.value = false;
     image.value = file;
   } else {

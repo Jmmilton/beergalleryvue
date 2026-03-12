@@ -146,7 +146,7 @@ async function forgotPasswordSubmit() {
   }
 }
 
-async function flashCursor(target, times = 3) {
+async function flashCursor(target, times = 2) {
   for (let i = 0; i < times; i++) {
     target.value = '|'
     await new Promise(resolve => setTimeout(resolve, 400))
