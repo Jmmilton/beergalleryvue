@@ -14,7 +14,6 @@
           <input
             v-model="email"
             type="email"
-            placeholder="you@email.com"
             required
           />
         </div>
@@ -37,7 +36,7 @@
           {{ message }}
         </div>
 
-        <button v-if="!newUser && !isForgotPassword" class="login-button" @click="login" type="submit">
+        <button v-if="!newUser && !isForgotPassword" class="login-button" @click="login" type="submit" :class="{ 'is-logging-in': isAutoLogging }">
           Log In
         </button>
 
@@ -88,6 +87,7 @@ let isForgotPassword = ref(false)
 let newUser = ref(false)
 const demoEmail = import.meta.env.VITE_DEMO_EMAIL
 const demoPassword = import.meta.env.VITE_DEMO_PASSWORD
+const isAutoLogging = ref(false)
 
 
 async function login() {
@@ -146,6 +146,15 @@ async function forgotPasswordSubmit() {
   }
 }
 
+async function flashCursor(target, times = 3) {
+  for (let i = 0; i < times; i++) {
+    target.value = '|'
+    await new Promise(resolve => setTimeout(resolve, 400))
+    target.value = ''
+    await new Promise(resolve => setTimeout(resolve, 400))
+  }
+}
+
 async function typeText(target, text, minSpeed = 60, maxSpeed = 150) {
   for (const char of text) {
     target.value += char
@@ -172,11 +181,18 @@ onMounted(async () => {
   if (isRealUser) return
 
   await new Promise(resolve => setTimeout(resolve, 800))
+  await flashCursor(email)
+
   await typeText(email, demoEmail)
-  await new Promise(resolve => setTimeout(resolve, 400))
+  await new Promise(resolve => setTimeout(resolve, 200))
   await typeText(password, demoPassword, 60)
   await new Promise(resolve => setTimeout(resolve, 600))
-  await login()
+
+  isAutoLogging.value = true
+await new Promise(resolve => setTimeout(resolve, 250))
+isAutoLogging.value = false
+await new Promise(resolve => setTimeout(resolve, 250))
+await login()
 })
 
 </script>
@@ -279,6 +295,15 @@ input:focus {
 
 .login-button:hover {
   opacity: 0.9;
+}
+
+.login-button {
+  transition: all 0.15s ease;
+}
+
+.login-button.is-logging-in {
+  background: #d97706;
+  transform: scale(0.95);
 }
 
 .signup {

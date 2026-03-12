@@ -17,7 +17,7 @@
             </button>
 
             <div v-if="isDropdown">
-              <button @click="signOut">Sign Out</button>
+              <button class="sign-out-button" @click="signOut">Sign Out</button>
             </div>
           <!-- </router-link> -->
         </div>
@@ -340,5 +340,10 @@ const categories = ref([
   justify-content: center;
   gap: 8px;
   border-radius: 0 0 15px 15px;;
+}
+
+.sign-out-button {
+  border: none;
+  background: none;
 }
 </style>
