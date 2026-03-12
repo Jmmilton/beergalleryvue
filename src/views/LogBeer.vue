@@ -145,7 +145,7 @@
         <p v-if="successMessage" class="success-message">
           {{ successMessage }}
         </p>
-        <p v-else-if="errorMessage" class="success-message">
+        <p v-else-if="errorMessage" class="error-message">
           {{ errorMessage }}
         </p>
       </div>
@@ -252,7 +252,7 @@ const submitForm = async () => {
     fileInput.value?.reset();
     setTimeout(() => router.push('/'), 1000)
   } catch (error) {
-    errorMessage.value = "❌ Beer failed to submit ❌";
+    errorMessage.value = "Beer failed to submit";
     console.error("Error:", error.response?.data || error.message);
   }
 };

@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
@@ -86,6 +86,8 @@ const message = ref("")
 const isButtonDisabled = ref(false)
 let isForgotPassword = ref(false)
 let newUser = ref(false)
+const demoEmail = import.meta.env.VITE_DEMO_EMAIL
+const demoPassword = import.meta.env.VITE_DEMO_PASSWORD
 
 
 async function login() {
@@ -98,6 +100,9 @@ async function login() {
   const token = response.data.token
   localStorage.setItem('token', token)
   localStorage.setItem('userEmail', email.value)
+  if (email.value !== 'demo@mybrews.app') {
+      localStorage.setItem('isRealUser', 'true')
+    }
   router.push('/')
   if(isButtonDisabled.value) return
   } catch (err) {
@@ -140,6 +145,40 @@ async function forgotPasswordSubmit() {
     error.value = err.response?.data?.error || "Something went wrong"
   }
 }
+
+async function typeText(target, text, minSpeed = 60, maxSpeed = 150) {
+  for (const char of text) {
+    target.value += char
+    // Random delay between each character
+    const delay = Math.random() * (maxSpeed - minSpeed) + minSpeed
+    await new Promise(resolve => setTimeout(resolve, delay))
+    
+    // Occasionally add a longer pause as if thinking
+    if (Math.random() < 0.1) {
+      await new Promise(resolve => setTimeout(resolve, 300))
+    }
+  }
+}
+
+onMounted(async () => {
+  const token = localStorage.getItem('token')
+  const isRealUser = localStorage.getItem('isRealUser')
+  
+  if (token && token !== 'undefined' && isRealUser) {
+    router.push('/')
+    return
+  }
+
+  if (isRealUser) return
+
+  await new Promise(resolve => setTimeout(resolve, 800))
+  await typeText(email, demoEmail)
+  await new Promise(resolve => setTimeout(resolve, 400))
+  await typeText(password, demoPassword, 60)
+  await new Promise(resolve => setTimeout(resolve, 600))
+  await login()
+})
+
 </script>
 
 <style scoped>

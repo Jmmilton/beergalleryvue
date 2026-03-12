@@ -130,6 +130,9 @@ async function signOut() {
   } catch (err) {
     localStorage.removeItem('token')
     router.push('/login')
+  } finally {
+    localStorage.removeItem('token')
+    router.push('/login')
   }
 }
 
