@@ -1,6 +1,10 @@
 <template>
   <MainNav
-    v-if="$route.path !== '/login' && $route.path !== '/reset-password'"
+    v-if="
+      $route.path !== '/login' &&
+      $route.path !== '/reset-password' &&
+      $route.path !== '/confirm-email'
+    "
     tagline="BEER"
   />
   <div class="container-fluid">
