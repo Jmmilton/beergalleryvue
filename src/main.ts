@@ -38,7 +38,6 @@ const routes = [
   { path: '/login', component: UserLogin, meta: { public: true }},
   { path: '/reset-password', component: ResetPassword, meta: { public: true }},
   { path: '/confirm-email', component: ConfirmEmail, meta: { public: true }}
-
 ]
 
 const router = createRouter({
