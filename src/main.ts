@@ -54,12 +54,6 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
-  if (!window.location.hash) {
-  const path = window.location.pathname + window.location.search;
-  if (path !== "/") {
-    window.location.replace("/#" + path);
-  }
-}
 })
 
 createApp(App).use(router).mount('#app')
