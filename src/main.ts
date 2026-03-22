@@ -13,6 +13,16 @@ import UserLogin from "./views/UserLogin.vue"
 import ResetPassword from "./views/ResetPassword.vue"
 import axios from 'axios'
 
+const path = window.location.pathname;
+const search = window.location.search;
+
+if (
+  !window.location.hash &&
+  path.startsWith("/users/password/edit")
+) {
+  window.location.replace(`/#${path}${search}`);
+}
+
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.headers.common['Accept'] = 'application/json'
@@ -39,16 +49,6 @@ const routes = [
 
 ]
 
-const path = window.location.pathname;
-const search = window.location.search;
-
-if (
-  !window.location.hash &&
-  path.startsWith("/users/password/edit")
-) {
-  window.location.replace(`/#${path}${search}`);
-}
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes
@@ -57,6 +57,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   const isLoggedIn = !!token && token !== 'undefined'
+  
+    if (to.path === '/users/password/edit') {
+    return next()
+  }
   
   if (!to.meta.public && !isLoggedIn) {
     next('/login')
