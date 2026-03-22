@@ -39,6 +39,16 @@ const routes = [
 
 ]
 
+const path = window.location.pathname;
+const search = window.location.search;
+
+if (
+  !window.location.hash &&
+  path.startsWith("/users/password/edit")
+) {
+  window.location.replace(`/#${path}${search}`);
+}
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes
