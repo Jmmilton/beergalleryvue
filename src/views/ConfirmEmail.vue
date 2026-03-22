@@ -6,14 +6,12 @@
     </div>
 
     <div class="login-card">
-      <div class="login-card">
-        <p>{{ message }}</p>
+      <p>{{ message }}</p>
 
-        <p>
-          If you are not redirected after 5 seconds, please
-          <a href="/login">click here</a>.
-        </p>
-      </div>
+      <p>
+        If you are not redirected after 5 seconds, please
+        <a href="/login">click here</a>.
+      </p>
     </div>
   </div>
 </template>
