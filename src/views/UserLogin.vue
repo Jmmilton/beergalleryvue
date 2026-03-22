@@ -6,7 +6,7 @@
     </div>
 
     <div class="login-card">
-      <form @submit.prevent="login">
+      <form @submit.prevent="newUser ? register() : login()">
         <div class="form-group">
           <div v-if="confirmed" class="alert alert-success">
             Email confirmed! You can now log in.
@@ -43,12 +43,7 @@
           Log In
         </button>
 
-        <button
-          v-if="newUser"
-          class="login-button"
-          @click="register"
-          type="button"
-        >
+        <button v-if="newUser" class="login-button" type="submit">
           Register
         </button>
 
