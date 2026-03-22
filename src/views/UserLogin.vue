@@ -206,6 +206,8 @@ onMounted(async () => {
   const isRealUser = localStorage.getItem("isRealUser");
 
   if (window.location.href.includes("reset_password_token")) return;
+  if (window.location.href.includes("confirmation_token")) return;
+  if (window.location.href.includes("confirmed=true")) return;
 
   if (token && token !== "undefined" && isRealUser) {
     router.push("/");

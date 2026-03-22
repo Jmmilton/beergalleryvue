@@ -11,6 +11,7 @@ import FavBrewed from "./views/FavBrewed.vue"
 import FavTasted from "./views/FavTasted.vue"
 import UserLogin from "./views/UserLogin.vue"
 import ResetPassword from "./views/ResetPassword.vue"
+import ConfirmEmail from "./views/ConfirmEmail.vue"
 import axios from 'axios'
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
@@ -35,7 +36,8 @@ const routes = [
   { path: '/fav-brewed', component: FavBrewed},
   { path: '/fav-tasted', component: FavTasted},
   { path: '/login', component: UserLogin, meta: { public: true }},
-  { path: '/reset-password', component: ResetPassword, meta: { public: true }}
+  { path: '/reset-password', component: ResetPassword, meta: { public: true }},
+  { path: '/confirm-email', component: ConfirmEmail, meta: { public: true }}
 
 ]
 
