@@ -8,12 +8,16 @@
     <div class="login-card">
       <form @submit.prevent="login">
         <div class="form-group">
+          <div v-if="confirmed" class="alert alert-success">
+            Email confirmed! You can now log in.
+          </div>
           <label>Email</label>
           <input v-model="email" type="email" required />
         </div>
         <div class="form-group" v-if="!isForgotPassword">
           <label>Password</label>
           <input
+            ref="passwordInput"
             v-model="password"
             type="password"
             placeholder="••••••••"
@@ -92,10 +96,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const router = useRouter();
-
+const route = useRoute();
 const email = ref("");
 const password = ref("");
 const error = ref("");
@@ -106,6 +110,8 @@ let newUser = ref(false);
 const demoEmail = import.meta.env.VITE_DEMO_EMAIL;
 const demoPassword = import.meta.env.VITE_DEMO_PASSWORD;
 const isAutoLogging = ref(false);
+const confirmed = ref(false);
+const passwordInput = ref(null);
 
 async function login() {
   try {
@@ -207,7 +213,14 @@ onMounted(async () => {
 
   if (window.location.href.includes("reset_password_token")) return;
   if (window.location.href.includes("confirmation_token")) return;
-  if (window.location.href.includes("confirmed=true")) return;
+
+  if (route.query.email) {
+    email.value = decodeURIComponent(route.query.email);
+    confirmed.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    passwordInput.value?.focus();
+    return;
+  }
 
   if (token && token !== "undefined" && isRealUser) {
     router.push("/");
