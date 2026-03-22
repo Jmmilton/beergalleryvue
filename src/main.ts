@@ -57,7 +57,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-
 })
 
 createApp(App).use(router).mount('#app')
