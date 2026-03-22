@@ -49,6 +49,10 @@ router.beforeEach((to, from, next) => {
   const isLoggedIn = !!token && token !== 'undefined'
   
   if (!to.meta.public && !isLoggedIn) {
+    if (to.path === '/reset-password' || to.query.reset_password_token) {
+      next()
+      return
+    }
     next('/login')
   } else {
     next()
