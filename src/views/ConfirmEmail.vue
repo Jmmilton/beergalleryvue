@@ -31,7 +31,7 @@ onMounted(async () => {
       `/users/confirmation?confirmation_token=${route.query.confirmation_token}`,
     );
     message.value = "Account confirmed! Redirecting to login...";
-    setTimeout(() => router.push("/login?confirmed=true"), 2000);
+    setTimeout(() => router.push("/login?confirmed=true"), 5000);
   } catch (err) {
     message.value = "Confirmation failed. The link may have expired.";
   }
