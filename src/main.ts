@@ -35,7 +35,7 @@ const routes = [
   { path: '/fav-brewed', component: FavBrewed},
   { path: '/fav-tasted', component: FavTasted},
   { path: '/login', component: UserLogin, meta: { public: true }},
-  { path: '/users/password/edit', component: ResetPassword, meta: { public: true }}
+  { path: '/reset-password', component: ResetPassword, meta: { public: true }}
 
 ]
 
