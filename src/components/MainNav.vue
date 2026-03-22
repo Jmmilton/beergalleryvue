@@ -9,17 +9,16 @@
           <div class="title">
             <h1>MyBrews</h1>
           </div>
-          <!-- <router-link :to="''"> -->
+          <div class="profile-button-wrapper">
             <button class="profile-button" @click="profileDropdown">
               <span class="profile-icon">
                 <i class="fa-solid fa-user"></i>
               </span>
             </button>
-
-            <div v-if="isDropdown">
-              <button class="sign-out-button" @click="signOut">Sign Out</button>
-            </div>
-          <!-- </router-link> -->
+            <button v-if="isDropdown" class="sign-out-button" @click="signOut">
+              Sign Out
+            </button>
+          </div>
         </div>
 
         <div class="row nav-top-banner-row">
@@ -98,47 +97,47 @@
 import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 import BrewNavButton from "./BrewNavButton.vue";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 const emit = defineEmits(["beerVariant"]);
 
 const totalBrews = ref(0);
 const myBrews = ref(0);
 const tasted = ref(0);
-let isDropdown = ref(false)
+let isDropdown = ref(false);
 
 onMounted(async () => {
-  const { data } = await axios.get("/beers")
-  totalBrews.value = data.total
-  myBrews.value = data.brewed_count
-  tasted.value = data.tasted_count
-})
+  const { data } = await axios.get("/beers");
+  totalBrews.value = data.total;
+  myBrews.value = data.brewed_count;
+  tasted.value = data.tasted_count;
+});
 
 function profileDropdown() {
-  isDropdown.value = true
+  isDropdown.value = !isDropdown.value;
 }
 
 async function signOut() {
   try {
-    await axios.delete('/users/sign_out',
-      { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-    })
-    localStorage.removeItem('token')
-    router.push('/login')
+    await axios.delete("/users/sign_out", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    localStorage.removeItem("token");
+    router.push("/login");
   } catch (err) {
-    localStorage.removeItem('token')
-    router.push('/login')
+    localStorage.removeItem("token");
+    router.push("/login");
   } finally {
-    localStorage.removeItem('token')
-    router.push('/login')
+    localStorage.removeItem("token");
+    router.push("/login");
   }
 }
 
-const isDemoUser = computed(() => localStorage.getItem('userEmail') === 'demo@mybrews.app')
-
-
+const isDemoUser = computed(
+  () => localStorage.getItem("userEmail") === "demo@mybrews.app",
+);
 
 const navButtons = ref([
   {
@@ -193,6 +192,25 @@ const categories = ref([
 
       h1 {
         margin-bottom: 0;
+      }
+
+      .profile-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s ease;
+        position: relative;
+
+        .sign-out-button {
+          border: none;
+          background: none;
+          display: block;
+          transition: all 0.2s ease;
+          position: absolute;
+          top: 35px;
+          z-index: 100;
+        }
       }
 
       .profile-button {
@@ -339,11 +357,6 @@ const categories = ref([
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 0 0 15px 15px;;
-}
-
-.sign-out-button {
-  border: none;
-  background: none;
+  border-radius: 0 0 15px 15px;
 }
 </style>

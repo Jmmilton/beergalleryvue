@@ -1,5 +1,8 @@
 <template>
-  <MainNav v-if="$route.path !== '/login' && $route.path !== '/reset-password'" tagline="BEER" />
+  <MainNav
+    v-if="$route.path !== '/login' && $route.path !== '/users/password/edit'"
+    tagline="BEER"
+  />
   <div class="container-fluid">
     <!-- <RouterLink to="/">Go to Home</RouterLink>
     <RouterLink to="/about">Go to About</RouterLink> -->
