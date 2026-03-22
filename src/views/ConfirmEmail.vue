@@ -33,10 +33,7 @@ onMounted(async () => {
     );
     message.value = "Account confirmed! Redirecting to login...";
     setTimeout(
-      () =>
-        router.push(
-          `/login?confirmed=true&email=${encodeURIComponent(emailFromUrl)}`,
-        ),
+      () => router.push(`/login?email=${encodeURIComponent(emailFromUrl)}`),
       4000,
     );
   } catch (err) {
